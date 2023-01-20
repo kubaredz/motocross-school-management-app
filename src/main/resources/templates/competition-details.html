@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Competition details</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/home.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <aside th:insert="/home.html :: sidenav"></aside>
+    <header th:insert="/home.html :: header"></header>
+
+    <div class="main">
+        <h2 th:text="${competition.showName}"></h2>
+
+        <a th:if="${msgMotocross=='motorcycle-none'}" class="alert-text">No available motorcycle to join with!</a>
+        <a th:if="${msgMotocross=='motorcycle-none'}" th:href="@{/competitions}" class="btn-link">Go back to competitions</a>
+        <br>
+
+        <form th:unless="${msgMotocross=='motorcycle-none'}" th:action="@{'/competition/'+${competition.id}}"
+
+              method="post"
+              class="join-competition">
+            <label>Join this competition with: </label>
+            <select th:name="newMotocross" class="mdb-select md-form">
+
+                <option value=0 disabled selected>Choose a motocross</option>
+                <option th:each="motocross : ${motorcycle}"
+                        th:value="${motocross.id}"
+                        th:text="${motocross.name}">
+                </option>
+            </select>
+
+            <input class="btn btn-primary submit-btn" name="submit" type="submit" value="submit"/>
+        </form>
+
+        <div class="table-responsive">
+            <table id="participationsList" class="table">
+                <thead>
+                    <tr>
+                        <th>Motocross</th>
+                        <th>Owner</th>
+                        <th>Rider</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="participation, rowStat: ${participations}"
+                        th:style="${rowStat.odd} ? 'color: gray' : 'color: black;'">
+                        <td th:text="${participation.motocross.name}"></td>
+                        <td th:text="${participation.motocross.owner.person.getName()}"></td>
+                        <td th:text="${participation.rider.person.getName()}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!--<div th:if="${msg}" id="popup1" class="overlay">-->
+        <div th:if="${msg}" th:class="${'alert-'+alertClass}">
+            <a th:if="${msg=='failed'}">You don't have enough stars to join this competition!</a>
+            <a th:if="${msg=='failed'}" class="closebtn" th:href="@{/competitions}" onclick="this.parentElement.style.display='none';">
+                &times;
+            </a>
+
+            <a th:if="${msg=='success'}">You've successfully joined new competition.</a>
+            <a th:if="${msg=='success'}" class="closebtn" onclick="this.parentElement.style.display='none';">
+                &times;
+            </a>
+        </div>
+    <!--</div>-->
+
+</body>
+</html>

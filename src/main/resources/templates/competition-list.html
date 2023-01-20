@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Competitions</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/home.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <aside th:insert="/home.html :: sidenav"></aside>
+    <header th:insert="/home.html :: header"></header>
+
+    <div class="main">
+        <h2>Competitions</h2>
+
+        <a th:if="${msgCompetitions=='competitions-none'}" class="alert-text">You don't have any open competition!</a>
+
+        <div th:unless="${msgCompetitions=='competitions-none'}" class="table-responsive">
+            <table id="competitionsList" class="table">
+                <thead>
+                    <tr>
+                        <th>Show name</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        <th>Budget</th>
+                        <th>Number of stars</th>
+                        <th>Participants</th>
+                        <th>Join</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="competition, rowStat: ${competitions}"
+                        th:style="${rowStat.odd} ? 'color: gray' : 'color: black;'">
+                        <td th:text="${competition.showName}"></td>
+                        <td th:text="${competition.startDate}"></td>
+                        <td th:text="${competition.endDate}"></td>
+                        <td th:text="${competition.budget}"></td>
+                        <td th:text="${competition.numberOfStars}"></td>
+                        <td th:text="${competition.participantsNumber}"></td>
+                        <td>
+                            <a th:href="@{'/competition/'+${competition.id}}">
+                                <svg th:href="@{'/competition/'+${competition.id}}" class="bi bi-three-dots" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
