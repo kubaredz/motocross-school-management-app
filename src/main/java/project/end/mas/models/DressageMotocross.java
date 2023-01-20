@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "dressage_horse")
 @NoArgsConstructor
@@ -14,8 +15,8 @@ import java.time.LocalDate;
 @DiscriminatorValue("DRESSAGE")
 public class DressageMotocross extends Motocross {
 
-    public DressageMotocross(@NotNull String name, String nickname, @NotNull LocalDate birthday, @NotNull String color, @NotNull boolean isActive, @NotNull Owner owner, @NotNull @Range(min = 0, max = 100) int highestPointsResult) {
-        super(name, nickname, birthday, color, isActive, owner);
+    public DressageMotocross(long id, @NotNull String brand, String model, @NotNull LocalDate productionDate, @NotNull double motorPower, LocalDate serviceDate, @NotNull boolean isWorking, @NotNull Owner owner, List<Participation> participations, List<Training> trainings, int highestPointsResult) {
+        super(id, brand, model, productionDate, motorPower, serviceDate, isWorking, owner, participations, trainings);
         this.highestPointsResult = highestPointsResult;
     }
 

@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "jumping_horse")
 @NoArgsConstructor
@@ -15,8 +16,8 @@ import java.time.LocalDate;
 @DiscriminatorValue("JUMPING")
 public class JumpingMotocross extends Motocross {
 
-    public JumpingMotocross(@NotNull String name, String nickname, @NotNull LocalDate birthday, @NotNull String color, @NotNull boolean isActive, @NotNull Owner owner, @NotNull float highestJump) {
-        super(name, nickname, birthday, color, isActive, owner);
+    public JumpingMotocross(long id, @NotNull String brand, String model, @NotNull LocalDate productionDate, @NotNull double motorPower, LocalDate serviceDate, @NotNull boolean isWorking, @NotNull Owner owner, List<Participation> participations, List<Training> trainings, float highestJump) {
+        super(id, brand, model, productionDate, motorPower, serviceDate, isWorking, owner, participations, trainings);
         this.highestJump = highestJump;
     }
 

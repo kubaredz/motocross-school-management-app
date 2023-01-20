@@ -15,15 +15,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "discipline", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Motocross {
 
-    public Motocross(@NotNull String name, String nickname, @NotNull LocalDate birthday, @NotNull String color, @NotNull boolean isActive, @NotNull Owner owner) {
-        this.name = name;
-        this.nickname = nickname;
-        this.birthday = birthday;
-        this.color = color;
-        this.isActive = isActive;
+    public Motocross(@NotNull String brand, String model, @NotNull LocalDate productionDate, @NotNull double motorPower, @NotNull LocalDate serviceDate, @NotNull boolean isWorking, @NotNull Owner owner) {
+        this.brand = brand;
+        this.model = model;
+        this.productionDate = productionDate;
+        this.motorPower = motorPower;
+        this.serviceDate = serviceDate;
+        this.isWorking = isWorking;
         this.owner = owner;
     }
 
@@ -33,23 +34,25 @@ public class Motocross {
     private long id;
 
     @NotNull
-    private String name;
+    private String brand;
 
-    private String nickname;
-
-    @NotNull
-    private LocalDate birthday;
+    private String model;
 
     @NotNull
-    private String color;
+    private LocalDate productionDate;
 
     @NotNull
-    @Column(name = "is_active")
-    private boolean isActive;
+    private double motorPower;
+
+    private LocalDate serviceDate;
+
+    @NotNull
+    @Column(name = "is_working")
+    private boolean isWorking;
 
     @Transient
-    public int getAge() {
-        return Period.between(getBirthday(), LocalDate.now()).getYears();
+    public int getMileage() {
+        return Period.between(getProductionDate(), LocalDate.now()).getYears();
     }
 
     @NotNull
@@ -62,8 +65,6 @@ public class Motocross {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motocross")
     private List<Training> trainings;
-
-
 
     public void addParticipation(Participation participation) {
         getParticipations().add(participation);

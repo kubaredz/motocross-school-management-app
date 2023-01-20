@@ -27,7 +27,7 @@ public class MotocrossService {
     public List<Motocross> showActiveHorses(Competition competition) {
         return StreamSupport
                 .stream(motocrossRepository.findAll().spliterator(), false)
-                .filter(Motocross::isActive)
+                .filter(Motocross::isWorking)
                 .filter(h -> !horseInCompetition(competition, h))
                 .collect(Collectors.toList());
     }
