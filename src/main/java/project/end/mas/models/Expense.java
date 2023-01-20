@@ -14,10 +14,10 @@ import java.time.LocalDate;
 @Setter
 public class Expense {
 
-    public Expense(@NotNull double cost, LocalDate billingDate, @NotNull int number, @NotNull Owner owner) {
-        this.cost = cost;
-        this.billingDate = billingDate;
+    public Expense(@NotNull int number, LocalDate billingDate, @NotNull double cost, @NotNull Owner owner) {
         this.number = number;
+        this.billingDate = billingDate;
+        this.cost = cost;
         this.owner = owner;
     }
 
@@ -26,15 +26,17 @@ public class Expense {
     @Column(name = "id_expense")
     private long id;
 
+    //{unique}
     @NotNull
-    private double cost;
+    @Column(unique = true)
+    private int number;
 
+    //[0..1]
     @Column(name = "billing_date")
     private LocalDate billingDate;
 
     @NotNull
-    @Column(unique = true)
-    private int number;
+    private double cost;
 
     @NotNull
     @ManyToOne
