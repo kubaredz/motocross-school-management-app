@@ -17,13 +17,13 @@ import java.util.List;
 @Setter
 public class Rider {
 
-    public Rider(@NotNull int licenseId, @Range(min = 1, max = 4) int startingLeague, @Range(min = 1, max = 99) int actualPlace, @NotNull LocalDate birthday, @NotNull Person person, RidersClub ridersClub) {
+    public Rider(@NotNull int licenseId, @Range(min = 1, max = 4) int startingLeague, @Range(min = 1, max = 99) int actualPlace, @NotNull LocalDate birthday, @NotNull Person person, RidersGroup ridersGroup) {
         this.licenseId = licenseId;
         this.startingLeague = startingLeague;
         this.actualPlace = actualPlace;
         this.birthday = birthday;
         this.person = person;
-        this.ridersClub = ridersClub;
+        this.ridersGroup = ridersGroup;
     }
 
     @Id
@@ -60,8 +60,8 @@ public class Rider {
     private Person person;
 
     @ManyToOne
-    @JoinColumn(name = "id_riders_club")
-    private RidersClub ridersClub;
+    @JoinColumn(name = "id_riders_group")
+    private RidersGroup ridersGroup;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rider")
     private List<Participation> participationList;
