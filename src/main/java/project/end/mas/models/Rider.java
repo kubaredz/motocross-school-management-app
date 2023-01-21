@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Entity
@@ -15,9 +17,11 @@ import java.util.List;
 @Setter
 public class Rider {
 
-    public Rider(@NotNull int feiId, @NotNull @Range(min = 1, max = 4) int highestClassAllowed, @NotNull Person person, RidersClub ridersClub) {
-        this.feiId = feiId;
-        this.highestClassAllowed = highestClassAllowed;
+    public Rider(@NotNull int licenseId, @Range(min = 1, max = 4) int startingLeague, @Range(min = 1, max = 99) int actualPlace, @NotNull LocalDate birthday, @NotNull Person person, RidersClub ridersClub) {
+        this.licenseId = licenseId;
+        this.startingLeague = startingLeague;
+        this.actualPlace = actualPlace;
+        this.birthday = birthday;
         this.person = person;
         this.ridersClub = ridersClub;
     }
@@ -27,14 +31,28 @@ public class Rider {
     @Column(name = "id_rider")
     private long id;
 
+    //{unique}
     @NotNull
-    @Column(name = "fei_id", unique = true)
-    private int feiId;
+    @Column(name = "license_id", unique = true)
+    private int licenseId;
+
+    @Range(min = 1, max = 4)
+    @Column(name = "starting_league")
+    private int startingLeague;
+
+    @Range(min = 1, max = 99)
+    @Column(name = "actual_place")
+    private int actualPlace;
 
     @NotNull
-    @Range(min = 1, max = 4)
-    @Column(name = "highest_class_allowed")
-    private int highestClassAllowed;
+    @Column(name = "birthday")
+    private LocalDate birthday;
+
+    //Atr. wyliczalny Age
+    @Transient
+    public int getAge() {
+        return Period.between(getBirthday(), LocalDate.now()).getYears();
+    }
 
     //parnet-child association (orphanRemoval)
     @NotNull
@@ -46,31 +64,28 @@ public class Rider {
     private RidersClub ridersClub;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rider")
-    private List<Participation> participations;
+    private List<Participation> participationList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rider")
-    private List<Training> trainings;
-
-
+    private List<Training> trainingList;
 
     public void addParticipation(Participation participation) {
-        getParticipations().add(participation);
+        getParticipationList().add(participation);
         participation.setRider(this);
     }
 
     public void removeParticipation(Participation participation) {
-        getParticipations().remove(participation);
+        getParticipationList().remove(participation);
         participation.setRider(null);
     }
 
     public void addTraining(Training training) {
-        getTrainings().add(training);
+        getTrainingList().add(training);
         training.setRider(this);
     }
 
     public void removeTraining(Training training) {
-        getTrainings().remove(training);
+        getTrainingList().remove(training);
         training.setRider(null);
     }
-
 }
