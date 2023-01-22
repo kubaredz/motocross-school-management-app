@@ -17,25 +17,25 @@ import java.util.List;
 @Getter
 @Setter
 @DynamicUpdate
-public class Competition {
+public class Tournament {
 
-    public Competition(@NotNull String showName, @NotNull LocalDate startDate, @NotNull LocalDate endDate, @NotNull int budget, @NotNull @Range(min = 1, max = 4) int numberOfStars, @NotNull TournamentState state) {
-        this.showName = showName;
+    public Tournament(@NotNull String name, @NotNull LocalDate startDate, @NotNull LocalDate endDate, @NotNull int prizePool, @NotNull @Range(min = 1, max = 4) int tournamentType, @NotNull TournamentState tournamentState) {
+        this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.budget = budget;
-        this.numberOfStars = numberOfStars;
-        this.state = state;
+        this.prizePool = prizePool;
+        this.tournamentType = tournamentType;
+        this.tournamentState = tournamentState;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_competition")
+    @Column(name = "id_tournament")
     private long id;
 
     @NotNull
-    @Column(name = "show_name")
-    private String showName;
+    @Column(name = "name")
+    private String name;
 
     @NotNull
     @Column(name = "start_date")
@@ -46,12 +46,13 @@ public class Competition {
     private LocalDate endDate;
 
     @NotNull
-    private int budget;
+    @Column(name = "prize_pool")
+    private int prizePool;
 
     @NotNull
     @Range(min = 1, max = 4)
-    @Column(name = "number_of_stars")
-    private int numberOfStars;
+    @Column(name = "tournament_type")
+    private int tournamentType;
 
     @Transient
     private int attendancesNumber;
@@ -59,21 +60,20 @@ public class Competition {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(255) default 'OPEN'")
-    private TournamentState state;
+    private TournamentState tournamentState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competition", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tournament", orphanRemoval = true)
     private List<Attendance> attendances;
-
 
 
     public void addParticipation(Attendance attendance) {
         getAttendances().add(attendance);
-        attendance.setCompetition(this);
+        attendance.setTournament(this);
     }
 
     public void removeParticipation(Attendance attendance) {
         getAttendances().remove(attendance);
-        attendance.setCompetition(null);
+        attendance.setTournament(null);
     }
 
 }

@@ -4,7 +4,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Competitions</title>
+    <title>Tournaments</title>
     <link rel="stylesheet" th:href="@{/stylesheets/home.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -16,12 +16,12 @@
     <header th:insert="/home.html :: header"></header>
 
     <div class="main">
-        <h2>Competitions</h2>
+        <h2>Tournaments</h2>
 
-        <a th:if="${msgCompetitions=='competitions-none'}" class="alert-text">You don't have any open competition!</a>
+        <a th:if="${msgTournaments=='tournaments-none'}" class="alert-text">You don't have any open tournament!</a>
 
-        <div th:unless="${msgCompetitions=='competitions-none'}" class="table-responsive">
-            <table id="competitionsList" class="table">
+        <div th:unless="${msgTournaments=='tournaments-none'}" class="table-responsive">
+            <table id="tournamentsList" class="table">
                 <thead>
                     <tr>
                         <th>Show name</th>
@@ -34,17 +34,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="competition, rowStat: ${competitions}"
+                    <tr th:each="tournament, rowStat: ${tournaments}"
                         th:style="${rowStat.odd} ? 'color: gray' : 'color: black;'">
-                        <td th:text="${competition.showName}"></td>
-                        <td th:text="${competition.startDate}"></td>
-                        <td th:text="${competition.endDate}"></td>
-                        <td th:text="${competition.budget}"></td>
-                        <td th:text="${competition.numberOfStars}"></td>
-                        <td th:text="${competition.attendancesNumber}"></td>
+                        <td th:text="${tournament.name}"></td>
+                        <td th:text="${tournament.startDate}"></td>
+                        <td th:text="${tournament.endDate}"></td>
+                        <td th:text="${tournament.prizePool}"></td>
+                        <td th:text="${tournament.tournamentType}"></td>
+                        <td th:text="${tournament.tournamentState}"></td>
                         <td>
-                            <a th:href="@{'/competition/'+${competition.id}}">
-                                <svg th:href="@{'/competition/'+${competition.id}}" class="bi bi-three-dots" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <a th:href="@{'/tournament/'+${tournament.id}}">
+                                <svg th:href="@{'/tournament/'+${tournament.id}}" class="bi bi-three-dots" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                                 </svg>
                             </a>

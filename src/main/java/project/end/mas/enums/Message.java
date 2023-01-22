@@ -6,7 +6,7 @@ public enum Message {
     FAILED_JOIN("failed"),
     SUCCESS_JOIN("success"),
     MOTOCROSS_NONE("motocross-none"),
-    COMPETITIONS_NONE("competitions-none");
+    TOURNAMENTS_NONE("tournaments-none");
 
     @Getter
     String message;

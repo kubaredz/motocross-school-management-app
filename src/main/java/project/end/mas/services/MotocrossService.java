@@ -2,7 +2,7 @@ package project.end.mas.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.end.mas.models.Competition;
+import project.end.mas.models.Tournament;
 import project.end.mas.models.Motocross;
 import project.end.mas.repositories.MotocrossRepository;
 import project.end.mas.repositories.AttendanceRepository;
@@ -21,26 +21,26 @@ public class MotocrossService {
 
     /**
      * <p> method showing horses that are active and don't participate yet in a selected competition </p>
-     * @param competition selected competition
+     * @param tournament selected competition
      * @return list of horses
      */
-    public List<Motocross> showActiveHorses(Competition competition) {
+    public List<Motocross> showActiveHorses(Tournament tournament) {
         return StreamSupport
                 .stream(motocrossRepository.findAll().spliterator(), false)
                 .filter(Motocross::isWorking)
-                .filter(h -> !horseInCompetition(competition, h))
+                .filter(h -> !horseInCompetition(tournament, h))
                 .collect(Collectors.toList());
     }
 
     /**
      * <p> method checking if a selected horse takes part in a chosen competition already </p>
-     * @param competition selected competition
+     * @param tournament selected competition
      * @param motocross selected horse
      * @return true if selected horse already takes part in this competition
      */
-    private boolean horseInCompetition(Competition competition, Motocross motocross) {
+    private boolean horseInCompetition(Tournament tournament, Motocross motocross) {
         return StreamSupport
                 .stream(attendanceRepository.findAll().spliterator(), false)
-                .anyMatch(p -> p.getCompetition().equals(competition) && p.getMotocross().equals(motocross));
+                .anyMatch(p -> p.getTournament().equals(tournament) && p.getMotocross().equals(motocross));
     }
 }

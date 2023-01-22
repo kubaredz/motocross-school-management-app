@@ -4,7 +4,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Competition details</title>
+    <title>Tournament details</title>
     <link rel="stylesheet" th:href="@{/stylesheets/home.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
@@ -18,17 +18,17 @@
     <header th:insert="/home.html :: header"></header>
 
     <div class="main">
-        <h2 th:text="${competition.showName}"></h2>
+        <h2 th:text="${tournament.name}"></h2>
 
         <a th:if="${msgMotocross=='motorcycle-none'}" class="alert-text">No available motorcycle to join with!</a>
-        <a th:if="${msgMotocross=='motorcycle-none'}" th:href="@{/competitions}" class="btn-link">Go back to competitions</a>
+        <a th:if="${msgMotocross=='motorcycle-none'}" th:href="@{/tournaments}" class="btn-link">Go back to tournaments</a>
         <br>
 
-        <form th:unless="${msgMotocross=='motorcycle-none'}" th:action="@{'/competition/'+${competition.id}}"
+        <form th:unless="${msgMotocross=='motorcycle-none'}" th:action="@{'/tournament/'+${tournament.id}}"
 
               method="post"
-              class="join-competition">
-            <label>Join this competition with: </label>
+              class="join-tournament">
+            <label>Join this tournament with: </label>
             <select th:name="newMotocross" class="mdb-select md-form">
 
                 <option value=0 disabled selected>Choose a motocross</option>
@@ -65,12 +65,12 @@
 
     <!--<div th:if="${msg}" id="popup1" class="overlay">-->
         <div th:if="${msg}" th:class="${'alert-'+alertClass}">
-            <a th:if="${msg=='failed'}">You don't have enough stars to join this competition!</a>
-            <a th:if="${msg=='failed'}" class="closebtn" th:href="@{/competitions}" onclick="this.parentElement.style.display='none';">
+            <a th:if="${msg=='failed'}">You don't have enough stars to join this tournament!</a>
+            <a th:if="${msg=='failed'}" class="closebtn" th:href="@{/tournaments}" onclick="this.parentElement.style.display='none';">
                 &times;
             </a>
 
-            <a th:if="${msg=='success'}">You've successfully joined new competition.</a>
+            <a th:if="${msg=='success'}">You've successfully joined new tournament.</a>
             <a th:if="${msg=='success'}" class="closebtn" onclick="this.parentElement.style.display='none';">
                 &times;
             </a>

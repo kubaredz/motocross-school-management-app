@@ -13,10 +13,10 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class Attendance {
 
-    public Attendance(@NotNull Rider rider, @NotNull Motocross motocross, @NotNull Competition competition) {
+    public Attendance(@NotNull Rider rider, @NotNull Motocross motocross, @NotNull Tournament tournament) {
         this.rider = rider;
         this.motocross = motocross;
-        this.competition = competition;
+        this.tournament = tournament;
     }
 
     @Id
@@ -36,7 +36,7 @@ public class Attendance {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "id_competition")
-    private Competition competition;
+    @JoinColumn(name = "id_tournament")
+    private Tournament tournament;
 
 }

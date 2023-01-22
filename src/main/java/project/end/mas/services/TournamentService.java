@@ -3,7 +3,7 @@ package project.end.mas.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.end.mas.enums.TournamentState;
-import project.end.mas.models.Competition;
+import project.end.mas.models.Tournament;
 import project.end.mas.repositories.TournamentRepository;
 import project.end.mas.repositories.AttendanceRepository;
 
@@ -22,13 +22,13 @@ public class TournamentService {
      * <p> method showing all open competitions at the moment/p>
      * @return list of open competitions
      */
-    public Iterable<Competition> showOpenCompetitions() {
+    public Iterable<Tournament> showOpenCompetitions() {
         StreamSupport.stream(tournamentRepository.findAll().spliterator(), false)
                 .forEach(this::setParticipantsNumber);
 
         return StreamSupport
                 .stream(tournamentRepository.findAll().spliterator(), false)
-                .filter(competition -> competition.getState().equals(TournamentState.OPEN))
+                .filter(competition -> competition.getTournamentState().equals(TournamentState.OPEN))
                 .collect(Collectors.toList());
     }
 
@@ -47,7 +47,7 @@ public class TournamentService {
      * @param idCompetition id of a competition to find
      * @return competition or empty optional
      */
-    public Optional<Competition> findCompetitionById(long idCompetition) {
+    public Optional<Tournament> findCompetitionById(long idCompetition) {
         return tournamentRepository.findById(idCompetition);
     }
 
@@ -59,7 +59,7 @@ public class TournamentService {
         tournamentRepository
                 .findById(idCompetition)
                 .ifPresent(competition -> {
-                    competition.setState(TournamentState.CANCELLED);
+                    competition.setTournamentState(TournamentState.CANCELLED);
                     tournamentRepository.save(competition);
                 });
     }
@@ -72,17 +72,17 @@ public class TournamentService {
         tournamentRepository
                 .findById(idCompetition)
                 .ifPresent(competition -> {
-                    competition.setState(TournamentState.OPEN);
+                    competition.setTournamentState(TournamentState.OPEN);
                     tournamentRepository.save(competition);
                 });
     }
 
-    public void setParticipantsNumber(Competition competition) {
+    public void setParticipantsNumber(Tournament tournament) {
         int number = StreamSupport
                 .stream(attendanceRepository.findAll().spliterator(), false)
-                .filter(p -> p.getCompetition().getId() == competition.getId())
+                .filter(p -> p.getTournament().getId() == tournament.getId())
                 .collect(Collectors.toList())
                 .size();
-        competition.setAttendancesNumber(number);
+        tournament.setAttendancesNumber(number);
     }
 }

@@ -3,7 +3,7 @@ package project.end.mas.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.end.mas.exceptions.CantJoinTournamentException;
-import project.end.mas.models.Competition;
+import project.end.mas.models.Tournament;
 import project.end.mas.models.Motocross;
 import project.end.mas.models.Attendance;
 import project.end.mas.models.Rider;
@@ -33,7 +33,7 @@ public class AttendanceService {
     public List<Attendance> showParticipants(long idCompetition) {
         return StreamSupport
                 .stream(attendanceRepository.findAll().spliterator(), false)
-                .filter(p -> p.getCompetition().getId() == idCompetition)
+                .filter(p -> p.getTournament().getId() == idCompetition)
                 .collect(Collectors.toList());
     }
 
@@ -45,14 +45,14 @@ public class AttendanceService {
     public void joinCompetition(Long idCompetition, Long idHorse) throws CantJoinTournamentException {
         //logged rider (hardcoded)
         Optional<Rider> loggedRider = riderRepository.findById(1L);
-        Optional<Competition> competition = tournamentService.findCompetitionById(idCompetition);
+        Optional<Tournament> competition = tournamentService.findCompetitionById(idCompetition);
         Optional<Motocross> horse = motocrossRepository.findById(idHorse);
 
         if (loggedRider.isPresent() && competition.isPresent() && horse.isPresent()) {
             Attendance attendance = new Attendance(loggedRider.get(), horse.get(), competition.get());
             attendanceRepository.save(attendance);
         } else {
-            throw new CantJoinTournamentException("Can't join competition, wrong data input!");
+            throw new CantJoinTournamentException("Can't join tournament, wrong data input!");
         }
 
     }
