@@ -8,9 +8,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.end.mas.exceptions.CantJoinTournamentException;
 import project.end.mas.exceptions.NoTournamentException;
 import project.end.mas.enums.Message;
+import project.end.mas.models.Attendance;
 import project.end.mas.models.Competition;
 import project.end.mas.models.Motocross;
-import project.end.mas.models.Participation;
 
 import project.end.mas.models.Rider;
 import project.end.mas.repositories.RiderRepository;
@@ -68,7 +68,7 @@ public class JoinTournamentController {
 
         Competition competition = tournamentService.findCompetitionById(id)
                 .orElseThrow(() -> new NoTournamentException("given competition id doesn't exists"));
-        List<Participation> participations = attendanceService.showParticipants(id);
+        List<Attendance> attendances = attendanceService.showParticipants(id);
         List<Motocross> motorcycle = motocrossService.showActiveHorses(competition);
 
         if (motorcycle.isEmpty())
@@ -78,7 +78,7 @@ public class JoinTournamentController {
         model.addAttribute("rider", loggedRider.get());
 
         model.addAttribute("competition", competition);
-        model.addAttribute("participations", participations);
+        model.addAttribute("attendances", attendances);
         model.addAttribute("motorcycle", motorcycle);
 
         return "competition-details.html";

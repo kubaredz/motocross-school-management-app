@@ -54,7 +54,7 @@ public class Competition {
     private int numberOfStars;
 
     @Transient
-    private int participantsNumber;
+    private int attendancesNumber;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -62,18 +62,18 @@ public class Competition {
     private TournamentState state;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "competition", orphanRemoval = true)
-    private List<Participation> participations;
+    private List<Attendance> attendances;
 
 
 
-    public void addParticipation(Participation participation) {
-        getParticipations().add(participation);
-        participation.setCompetition(this);
+    public void addParticipation(Attendance attendance) {
+        getAttendances().add(attendance);
+        attendance.setCompetition(this);
     }
 
-    public void removeParticipation(Participation participation) {
-        getParticipations().remove(participation);
-        participation.setCompetition(null);
+    public void removeParticipation(Attendance attendance) {
+        getAttendances().remove(attendance);
+        attendance.setCompetition(null);
     }
 
 }

@@ -83,6 +83,6 @@ public class TournamentService {
                 .filter(p -> p.getCompetition().getId() == competition.getId())
                 .collect(Collectors.toList())
                 .size();
-        competition.setParticipantsNumber(number);
+        competition.setAttendancesNumber(number);
     }
 }

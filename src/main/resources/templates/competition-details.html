@@ -42,7 +42,7 @@
         </form>
 
         <div class="table-responsive">
-            <table id="participationsList" class="table">
+            <table id="attendancesList" class="table">
                 <thead>
                     <tr>
                         <th>Motocross</th>
@@ -51,11 +51,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="participation, rowStat: ${participations}"
+                    <tr th:each="attendance, rowStat: ${attendances}"
                         th:style="${rowStat.odd} ? 'color: gray' : 'color: black;'">
-                        <td th:text="${participation.motocross.brand}"></td>
-                        <td th:text="${participation.motocross.owner.person.getName()}"></td>
-                        <td th:text="${participation.rider.person.getName()}"></td>
+                        <td th:text="${attendance.motocross.brand}"></td>
+                        <td th:text="${attendance.motocross.owner.person.getName()}"></td>
+                        <td th:text="${attendance.rider.person.getName()}"></td>
                     </tr>
                 </tbody>
             </table>

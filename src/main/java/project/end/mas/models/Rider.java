@@ -64,19 +64,19 @@ public class Rider {
     private RidersGroup ridersGroup;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rider")
-    private List<Participation> participationList;
+    private List<Attendance> attendanceList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rider")
     private List<Training> trainingList;
 
-    public void addParticipation(Participation participation) {
-        getParticipationList().add(participation);
-        participation.setRider(this);
+    public void addParticipation(Attendance attendance) {
+        getAttendanceList().add(attendance);
+        attendance.setRider(this);
     }
 
-    public void removeParticipation(Participation participation) {
-        getParticipationList().remove(participation);
-        participation.setRider(null);
+    public void removeParticipation(Attendance attendance) {
+        getAttendanceList().remove(attendance);
+        attendance.setRider(null);
     }
 
     public void addTraining(Training training) {

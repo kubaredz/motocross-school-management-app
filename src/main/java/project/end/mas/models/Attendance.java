@@ -11,9 +11,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Participation {
+public class Attendance {
 
-    public Participation(@NotNull Rider rider, @NotNull Motocross motocross, @NotNull Competition competition) {
+    public Attendance(@NotNull Rider rider, @NotNull Motocross motocross, @NotNull Competition competition) {
         this.rider = rider;
         this.motocross = motocross;
         this.competition = competition;
@@ -21,7 +21,7 @@ public class Participation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_participation")
+    @Column(name = "id_attendance")
     private long id;
 
     @NotNull

@@ -16,8 +16,8 @@ import java.util.List;
 @DiscriminatorValue("JUMPING")
 public class JumpingMotocross extends Motocross {
 
-    public JumpingMotocross(long id, @NotNull String brand, String model, @NotNull LocalDate productionDate, @NotNull double motorPower, LocalDate serviceDate, @NotNull boolean isWorking, @NotNull Owner owner, List<Participation> participations, List<Training> trainings, float highestJump) {
-        super(id, brand, model, productionDate, motorPower, serviceDate, isWorking, owner, participations, trainings);
+    public JumpingMotocross(long id, @NotNull String brand, String model, @NotNull LocalDate productionDate, @NotNull double motorPower, LocalDate serviceDate, @NotNull boolean isWorking, @NotNull Owner owner, List<Attendance> attendances, List<Training> trainings, float highestJump) {
+        super(id, brand, model, productionDate, motorPower, serviceDate, isWorking, owner, attendances, trainings);
         this.highestJump = highestJump;
     }
 

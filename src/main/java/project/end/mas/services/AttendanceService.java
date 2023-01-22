@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import project.end.mas.exceptions.CantJoinTournamentException;
 import project.end.mas.models.Competition;
 import project.end.mas.models.Motocross;
-import project.end.mas.models.Participation;
+import project.end.mas.models.Attendance;
 import project.end.mas.models.Rider;
 import project.end.mas.repositories.MotocrossRepository;
 import project.end.mas.repositories.AttendanceRepository;
@@ -30,7 +30,7 @@ public class AttendanceService {
      * @param idCompetition id of selected competition
      * @return list of participants in a chosen competition
      */
-    public List<Participation> showParticipants(long idCompetition) {
+    public List<Attendance> showParticipants(long idCompetition) {
         return StreamSupport
                 .stream(attendanceRepository.findAll().spliterator(), false)
                 .filter(p -> p.getCompetition().getId() == idCompetition)
@@ -49,8 +49,8 @@ public class AttendanceService {
         Optional<Motocross> horse = motocrossRepository.findById(idHorse);
 
         if (loggedRider.isPresent() && competition.isPresent() && horse.isPresent()) {
-            Participation participation = new Participation(loggedRider.get(), horse.get(), competition.get());
-            attendanceRepository.save(participation);
+            Attendance attendance = new Attendance(loggedRider.get(), horse.get(), competition.get());
+            attendanceRepository.save(attendance);
         } else {
             throw new CantJoinTournamentException("Can't join competition, wrong data input!");
         }

@@ -61,19 +61,19 @@ public class Motocross {
     private Owner owner;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motocross")
-    private List<Participation> participations;
+    private List<Attendance> attendances;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motocross")
     private List<Training> trainings;
 
-    public void addParticipation(Participation participation) {
-        getParticipations().add(participation);
-        participation.setMotocross(this);
+    public void addParticipation(Attendance attendance) {
+        getAttendances().add(attendance);
+        attendance.setMotocross(this);
     }
 
-    public void removeParticipation(Participation participation) {
-        getParticipations().remove(participation);
-        participation.setMotocross(null);
+    public void removeParticipation(Attendance attendance) {
+        getAttendances().remove(attendance);
+        attendance.setMotocross(null);
     }
 
     public void addTraining(Training training) {
