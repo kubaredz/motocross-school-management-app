@@ -14,11 +14,11 @@ import java.time.LocalDate;
 @Setter
 public class Training {
 
-    public Training(@NotNull LocalDate date, @NotNull boolean isExecuted, @NotNull int priority, @NotNull String description, @NotNull Rider rider, @NotNull Motocross motocross) {
+    public Training(@NotNull LocalDate date, @NotNull int priority, @NotNull String description, @NotNull boolean isExecuted, @NotNull Rider rider, @NotNull Motocross motocross) {
         this.date = date;
-        this.isExecuted = isExecuted;
         this.priority = priority;
         this.description = description;
+        this.isExecuted = isExecuted;
         this.rider = rider;
         this.motocross = motocross;
     }
@@ -32,19 +32,14 @@ public class Training {
     private LocalDate date;
 
     @NotNull
-    @Column(name = "is_executed")
-    private boolean isExecuted;
-
-    @NotNull
     private int priority;
 
     @NotNull
     private String description;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "id_training_action")
-    private TrainingAction trainingAction;
+    @Column(name = "is_executed")
+    private boolean isExecuted;
 
     @NotNull
     @ManyToOne
