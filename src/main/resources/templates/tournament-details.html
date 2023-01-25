@@ -20,18 +20,18 @@
     <div class="main">
         <h2 th:text="${tournament.name}"></h2>
 
-        <a th:if="${msgMotocross=='motorcycle-none'}" class="alert-text">No available motorcycle to join with!</a>
-        <a th:if="${msgMotocross=='motorcycle-none'}" th:href="@{/tournaments}" class="btn-link">Go back to tournaments</a>
+        <a th:if="${msgMotocross=='motorcycle-none'}" class="alert-text">No available motorcycle to join with to tournament!</a>
+        <a th:if="${msgMotocross=='motorcycle-none'}" th:href="@{/tournaments}" class="btn-link">Go back to tournament list</a>
         <br>
 
         <form th:unless="${msgMotocross=='motorcycle-none'}" th:action="@{'/tournament/'+${tournament.id}}"
 
               method="post"
               class="join-tournament">
-            <label>Join this tournament with: </label>
+            <label>Join this tournament with:</label>
             <select th:name="newMotocross" class="mdb-select md-form">
 
-                <option value=0 disabled selected>Choose a motocross</option>
+                <option value=0 disabled selected>Choose a motocross:</option>
                 <option th:each="motocross : ${motorcycle}"
                         th:value="${motocross.id}"
                         th:text="${motocross.brand}">
@@ -45,8 +45,9 @@
             <table id="attendancesList" class="table">
                 <thead>
                     <tr>
-                        <th>Motocross</th>
-                        <th>Owner</th>
+                        <th>Motocross brand</th>
+                        <th>Motocross model</th>
+                        <th>Motocross owner</th>
                         <th>Rider</th>
                     </tr>
                 </thead>
@@ -54,6 +55,7 @@
                     <tr th:each="attendance, rowStat: ${attendances}"
                         th:style="${rowStat.odd} ? 'color: gray' : 'color: black;'">
                         <td th:text="${attendance.motocross.brand}"></td>
+                        <td th:text="${attendance.motocross.model}"></td>
                         <td th:text="${attendance.motocross.owner.person.getName()}"></td>
                         <td th:text="${attendance.rider.person.getName()}"></td>
                     </tr>
@@ -63,14 +65,14 @@
 
     </div>
 
-    <!--<div th:if="${msg}" id="popup1" class="overlay">-->
+    <!--<div th:if="${ms}" id="popup1" class="overlay">-->
         <div th:if="${msg}" th:class="${'alert-'+alertClass}">
-            <a th:if="${msg=='failed'}">You don't have enough stars to join this tournament!</a>
+            <a th:if="${msg=='failed'}">You cannot join this tournament because it is not a league you can enter!</a>
             <a th:if="${msg=='failed'}" class="closebtn" th:href="@{/tournaments}" onclick="this.parentElement.style.display='none';">
                 &times;
             </a>
 
-            <a th:if="${msg=='success'}">You've successfully joined new tournament.</a>
+            <a th:if="${msg=='success'}">You successfully join this tournament!</a>
             <a th:if="${msg=='success'}" class="closebtn" onclick="this.parentElement.style.display='none';">
                 &times;
             </a>

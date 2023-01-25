@@ -5,30 +5,29 @@
 >
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/stylesheets/home.css}" />
+    <link rel="stylesheet" th:href="@{/stylesheets/home.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <title>Stable management</title>
+    <title>Motocross app</title>
 </head>
 <body>
-    <aside th:fragment="sidenav" class="sidenav">
-        <img th:src="@{/images/motocross-logo2.png}"/>
-        <a class="account" th:href="@{/}" th:text="${'Hi, rider ' + rider.getPerson().getFirstName()}"></a>
-        <a href="#motorcycle">Horses</a>
-        <a href="#trainings">Trainings</a>
-        <a th:href="@{/tournaments}" id="tournaments">Tournaments</a>
-        <a href="#contact">Contact</a>
-    </aside>
+<aside th:fragment="sidenav" class="sidenav">
+    <img th:src="@{/images/logo.png}"/>
+    <a class="account" th:href="@{/}" th:text="${'Hi, rider ' + rider.getPerson().getFirstName()}"></a>
+    <a href="#menu">MENU</a>
+    <a href="#motocross">MOTOCROSS</a>
+    <a href="#trainings">TRAININGS</a>
+    <a th:href="@{/tournaments}" id="tournaments">TOURNAMENTS</a>
+</aside>
 
-    <header th:fragment="header" class="header">
-        <h1>Stable management app</h1>
-        <button class="btn btn-primary login-btn">Log out</button>
-    </header>
-    <div class="main">
-        <h2>Stable management content...</h2>
-    </div>
-
+<header th:fragment="header" class="header">
+    <h1>Motocross app</h1>
+    <button class="btn btn-primary login-btn">LOG OUT</button>
+</header>
+<div class="main">
+    <h2>No content on the page</h2>
+</div>
 </body>
 </html>

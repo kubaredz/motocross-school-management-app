@@ -41,7 +41,7 @@ public class JoinTournamentController {
 
     /**
      * <p> method showing all open competitions</p>
-     * @return view competition-list.html
+     * @return view tournament-list.html
      */
     @GetMapping("/tournaments")
     public String getCompetitions(Model model) {
@@ -55,13 +55,13 @@ public class JoinTournamentController {
         model.addAttribute("rider", loggedRider.get());
         model.addAttribute("tournaments", openCompetitions);
 
-        return "competition-list.html";
+        return "tournament-list.html";
     }
 
     /**
      * <p> method showing participants in a chosen competition
      * and option to join it with a specific horse</p>
-     * @return view competition-details.html
+     * @return view tournament-details.html
      */
     @GetMapping("/tournament/{id}")
     public String getCompetitionDetails(Model model, @PathVariable long id) throws NoTournamentException {
@@ -81,12 +81,12 @@ public class JoinTournamentController {
         model.addAttribute("attendances", attendances);
         model.addAttribute("motorcycle", motorcycle);
 
-        return "competition-details.html";
+        return "tournament-details.html";
     }
 
     /**
      * <p> method to add new participation
-     * @return view competition-details.html
+     * @return view tournament-details.html
      */
     @PostMapping("/tournament/{id}")
     public String joinCompetition(@PathVariable long id,

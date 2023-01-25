@@ -4,7 +4,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Tournaments</title>
+    <title>TOURNAMENTS</title>
     <link rel="stylesheet" th:href="@{/stylesheets/home.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -16,20 +16,20 @@
     <header th:insert="/home.html :: header"></header>
 
     <div class="main">
-        <h2>Tournaments</h2>
+        <h2>TOURNAMENTS</h2>
 
-        <a th:if="${msgTournaments=='tournaments-none'}" class="alert-text">You don't have any open tournament!</a>
+        <a th:if="${msgTournaments=='tournaments-none'}" class="alert-text">You don't have open tournament!</a>
 
         <div th:unless="${msgTournaments=='tournaments-none'}" class="table-responsive">
             <table id="tournamentsList" class="table">
                 <thead>
                     <tr>
-                        <th>Show name</th>
+                        <th>Name</th>
                         <th>Start date</th>
                         <th>End date</th>
-                        <th>Budget</th>
-                        <th>Number of stars</th>
-                        <th>Attendances</th>
+                        <th>Prize pool</th>
+                        <th>Type</th>
+                        <th>State</th>
                         <th>Join</th>
                     </tr>
                 </thead>
@@ -54,6 +54,5 @@
             </table>
         </div>
     </div>
-
 </body>
 </html>
