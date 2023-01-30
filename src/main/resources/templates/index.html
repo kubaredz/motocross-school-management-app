@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/stylesheets/style.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <title>Motocross app</title>
+</head>
+<body>
+
+<aside th:fragment="sidenav" class="sidenav">
+    <div class="header">
+        <a class="account" th:href="@{/}" th:text="${'Hi ' + rider.getPerson().getFirstName() + ',welcome back!'}"></a>
+
+        <div class="inner_header">
+            <div class="logo_container">
+                <h1><img th:src="@{/images/logo.png}"/></h1>
+            </div>
+            <ul class="navigation">
+                <a href="#menu" class="active">
+                    <li><b>MENU</b></li>
+                </a>
+                <a href="#motocross">
+                    <li><b>MOTOCROSS</b></li>
+                </a>
+                <a href="#trainings">
+                    <li><b>TRAINING</b></li>
+                </a>
+                <a th:href="@{/tournaments}" id="tournaments">
+                    <li><b>TOURNAMENT</b></li>
+                </a>
+                <a>
+                    <li>
+                        <button class="btn btn-primary login-btn" onclick="location.href='http://localhost:8081/#menu'">
+                            LOG OUT
+                        </button>
+                    </li>
+                </a>
+            </ul>
+        </div>
+        <div class="main">
+            <h2>No content on the page</h2>
+        </div>
+    </div>
+</aside>
+</body>
+</html>

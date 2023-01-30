@@ -5,54 +5,83 @@
 <head>
     <meta charset="UTF-8">
     <title>TOURNAMENTS</title>
-    <link rel="stylesheet" th:href="@{/stylesheets/home.css}" />
+    <link rel="stylesheet" th:href="@{/stylesheets/style.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <aside th:insert="/home.html :: sidenav"></aside>
-    <header th:insert="/home.html :: header"></header>
+<div class="header">
+    <a class="account" th:href="@{/}" th:text="${'Hi ' + rider.getPerson().getFirstName() + ',welcome back!'}"></a>
 
-    <div class="main">
-        <h2>TOURNAMENTS</h2>
-
-        <a th:if="${msgTournaments=='tournaments-none'}" class="alert-text">You don't have open tournament!</a>
-
-        <div th:unless="${msgTournaments=='tournaments-none'}" class="table-responsive">
-            <table id="tournamentsList" class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                        <th>Prize pool</th>
-                        <th>Type</th>
-                        <th>State</th>
-                        <th>Join</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="tournament, rowStat: ${tournaments}"
-                        th:style="${rowStat.odd} ? 'color: gray' : 'color: black;'">
-                        <td th:text="${tournament.name}"></td>
-                        <td th:text="${tournament.startDate}"></td>
-                        <td th:text="${tournament.endDate}"></td>
-                        <td th:text="${tournament.prizePool}"></td>
-                        <td th:text="${tournament.tournamentType}"></td>
-                        <td th:text="${tournament.tournamentState}"></td>
-                        <td>
-                            <a th:href="@{'/tournament/'+${tournament.id}}">
-                                <svg th:href="@{'/tournament/'+${tournament.id}}" class="bi bi-three-dots" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                                </svg>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="inner_header">
+        <div class="logo_container">
+            <h1><img th:src="@{/images/logo.png}"/></h1>
         </div>
+        <ul class="navigation">
+            <a href="http://localhost:8081/#index">
+                <li><b>MENU</b></li>
+            </a>
+            <a href="#motocross">
+                <li><b>MOTOCROSS</b></li>
+            </a>
+            <a href="#trainings">
+                <li><b>TRAINING</b></li>
+            </a>
+            <a th:href="@{/tournaments}" id="tournaments" class="active">
+                <li><b>TOURNAMENT</b></li>
+            </a>
+            <a>
+                <li>
+                    <button class="btn btn-primary login-btn" onclick="location.href='http://localhost:8081/#index'">LOG
+                        OUT
+                    </button>
+                </li>
+            </a>
+        </ul>
     </div>
+</div>
+<div class="main">
+    <h2>TOURNAMENTS</h2>
+
+    <a th:if="${msgTournaments=='tournaments-none'}" class="alert-text">You don't have open tournament!</a>
+
+    <div th:unless="${msgTournaments=='tournaments-none'}" class="table-responsive">
+        <table id="tournamentsList" class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Start date</th>
+                <th>End date</th>
+                <th>Prize pool</th>
+                <th>Type</th>
+                <th>State</th>
+                <th>Join</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tournament, rowStat: ${tournaments}"
+                th:style="${rowStat.odd} ? 'color: gray' : 'color: black;'">
+                <td th:text="${tournament.name}"></td>
+                <td th:text="${tournament.startDate}"></td>
+                <td th:text="${tournament.endDate}"></td>
+                <td th:text="${tournament.prizePool}"></td>
+                <td th:text="${tournament.tournamentType}"></td>
+                <td th:text="${tournament.tournamentState}"></td>
+                <td>
+                    <a th:href="@{'/tournament/'+${tournament.id}}">
+                        <svg th:href="@{'/tournament/'+${tournament.id}}" class="bi bi-three-dots" width="1em"
+                             height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                        </svg>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

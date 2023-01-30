@@ -36,7 +36,7 @@ public class JoinTournamentController {
     public String getHome(Model model) {
         Optional<Rider> loggedRider = riderRepository.findById(1L);
         model.addAttribute("rider", loggedRider.get());
-        return "home.html";
+        return "index.html";
     }
 
     /**
