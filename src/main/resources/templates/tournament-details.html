@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="header">
-    <a class="account" th:href="@{/}" th:text="${'Hi ' + rider.getPerson().getFirstName() + ',welcome back!'}"></a>
+    <a class="account" th:href="@{/}" th:text="${'Hi ' + rider.getPerson().getFirstName() + ', welcome back!'}"></a>
 
     <div class="inner_header">
         <div class="logo_container">
@@ -47,6 +47,7 @@
 </div>
 <div class="main">
     <h2 th:text="${'Tournament name: ' + tournament.name}"></h2>
+    <a th:text="${'Tournament level: ' + tournament.tournamentType}"></a>
 
     <a th:if="${msgMotocross=='motorcycle-none'}" class="alert-text">No available motorcycle to join with to
         tournament!</a>
@@ -78,7 +79,7 @@
                 <th>Motocross brand</th>
                 <th>Motocross model</th>
                 <th>Motocross owner</th>
-                <th>Rider</th>
+                <th>Starting league</th>
             </tr>
             </thead>
             <tbody>
@@ -86,8 +87,8 @@
                 th:style="${rowStat.odd} ? 'color: gray' : 'color: black;'">
                 <td th:text="${attendance.motocross.brand}"></td>
                 <td th:text="${attendance.motocross.model}"></td>
-                <td th:text="${attendance.motocross.owner.person.getName()}"></td>
-                <td th:text="${attendance.rider.person.getName()}"></td>
+                <td th:text="${attendance.motocross.owner.person.getPersonData()}"></td>
+                <td th:text="${attendance.rider.startingLeague}"></td>
             </tr>
             </tbody>
         </table>

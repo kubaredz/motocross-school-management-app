@@ -9,11 +9,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
-@Entity
 @NoArgsConstructor
+@DynamicUpdate
 @Getter
 @Setter
-@DynamicUpdate
+@Entity
 public class Person {
 
     public Person(@NotNull String firstName, @NotNull String lastName, @NotNull String phoneNumber) {
@@ -36,18 +36,21 @@ public class Person {
     private String lastName;
 
     @NotNull
+    @Column(name = "phone_number")
     private String phoneNumber;
 
+    //1-0..1
     @OneToOne
     @JoinColumn(name = "id_rider")
     private Rider rider;
 
+    //1-0..1
     @OneToOne
     @JoinColumn(name = "id_owner")
     private Owner owner;
 
     @Transient
-    public String getName() {
+    public String getPersonData() {
         return getFirstName() + " " + getLastName();
     }
 }

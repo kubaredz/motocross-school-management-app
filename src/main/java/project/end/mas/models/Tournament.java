@@ -4,22 +4,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.Range;
 import project.end.mas.enums.TournamentState;
+import project.end.mas.enums.TournamentType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
 @NoArgsConstructor
+@DynamicUpdate
 @Getter
 @Setter
-@DynamicUpdate
+@Entity
 public class Tournament {
 
-    public Tournament(@NotNull String name, @NotNull LocalDate startDate, @NotNull LocalDate endDate, @NotNull int prizePool, @NotNull @Range(min = 1, max = 4) int tournamentType, @NotNull TournamentState tournamentState) {
+    public Tournament(@NotNull String name, @NotNull LocalDate startDate, @NotNull LocalDate endDate, @NotNull int prizePool, TournamentType tournamentType, @NotNull TournamentState tournamentState) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -34,7 +34,6 @@ public class Tournament {
     private long id;
 
     @NotNull
-    @Column(name = "name")
     private String name;
 
     @NotNull
@@ -49,31 +48,30 @@ public class Tournament {
     @Column(name = "prize_pool")
     private int prizePool;
 
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(255) default 'NULL'", name = "tournament_type")
+    private TournamentType tournamentType;
+
     @NotNull
-    @Range(min = 1, max = 4)
-    @Column(name = "tournament_type")
-    private int tournamentType;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(255) default 'OPEN'", name = "tournament_state")
+    private TournamentState tournamentState;
 
     @Transient
     private int attendancesNumber;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "varchar(255) default 'OPEN'")
-    private TournamentState tournamentState;
-
+    //1-0..*
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tournament", orphanRemoval = true)
     private List<Attendance> attendances;
 
 
-    public void addParticipation(Attendance attendance) {
+    public void addAttendance(Attendance attendance) {
         getAttendances().add(attendance);
         attendance.setTournament(this);
     }
 
-    public void removeParticipation(Attendance attendance) {
+    public void removeAttendance(Attendance attendance) {
         getAttendances().remove(attendance);
         attendance.setTournament(null);
     }
-
 }

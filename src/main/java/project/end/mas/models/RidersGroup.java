@@ -4,22 +4,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
+import project.end.mas.enums.AdvancementLevel;
+import project.end.mas.enums.TournamentType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity(name = "riders_group")
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity(name = "riders_group")
 public class RidersGroup {
 
-    public RidersGroup(@NotNull String name, @NotNull LocalDate establishmentDate, @NotNull int numberOfMembers, @Range(min = 1, max = 3) int advancementLevel) {
+    public RidersGroup(@NotNull String name, @NotNull LocalDate establishmentDate, @NotNull AdvancementLevel advancementLevel) {
         this.name = name;
         this.establishmentDate = establishmentDate;
-        this.numberOfMembers = numberOfMembers;
         this.advancementLevel = advancementLevel;
     }
 
@@ -35,13 +36,18 @@ public class RidersGroup {
     @Column(name = "establishment_date")
     private LocalDate establishmentDate;
 
-    @Column(name = "number_of_members")
-    private int numberOfMembers;
+    //Atrybut pochodny (wyliczalny)
+    @Transient
+    private int numberOfMembers() {
+        return riders.size();
+    }
 
-    @Range(min = 1, max = 3)
-    @Column(name = "advancement_level")
-    private int advancementLevel;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(255) default 'beginner'", name = "advancement_level")
+    private AdvancementLevel advancementLevel;
 
+    //0..1-*
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ridersGroup")
     private List<Rider> riders;
 

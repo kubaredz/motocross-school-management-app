@@ -10,15 +10,15 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
-@Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
-@AllArgsConstructor
+@Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Motocross {
 
-    public Motocross(@NotNull String brand, String model, @NotNull LocalDate productionDate, @NotNull double motorPower, @NotNull LocalDate serviceDate, @NotNull boolean isWorking, @NotNull Owner owner) {
+    public Motocross(@NotNull String brand, @NotNull String model, @NotNull LocalDate productionDate, @NotNull double motorPower, LocalDate serviceDate, @NotNull boolean isWorking, @NotNull Owner owner) {
         this.brand = brand;
         this.model = model;
         this.productionDate = productionDate;
@@ -36,42 +36,50 @@ public class Motocross {
     @NotNull
     private String brand;
 
+    @NotNull
     private String model;
 
     @NotNull
+    @Column(name = "production_date")
     private LocalDate productionDate;
 
     @NotNull
+    @Column(name = "motor_power")
     private double motorPower;
 
+    @Column(name = "service_date")
     private LocalDate serviceDate;
 
     @NotNull
     @Column(name = "is_working")
     private boolean isWorking;
 
+    //Atrybut pochodny (wyliczalny)
     @Transient
     public int getMileage() {
         return Period.between(getProductionDate(), LocalDate.now()).getYears();
     }
 
+    //*-1
     @NotNull
     @ManyToOne
     @JoinColumn(name = "id_owner")
     private Owner owner;
 
+    //1-0..*
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motocross")
     private List<Attendance> attendances;
 
+    //1-0..*
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motocross")
     private List<Training> trainings;
 
-    public void addParticipation(Attendance attendance) {
+    public void addAttendance(Attendance attendance) {
         getAttendances().add(attendance);
         attendance.setMotocross(this);
     }
 
-    public void removeParticipation(Attendance attendance) {
+    public void removeAttendance(Attendance attendance) {
         getAttendances().remove(attendance);
         attendance.setMotocross(null);
     }

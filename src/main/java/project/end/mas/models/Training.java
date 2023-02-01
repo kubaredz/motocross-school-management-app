@@ -3,18 +3,19 @@ package project.end.mas.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Training {
 
-    public Training(@NotNull LocalDate date, @NotNull int priority, @NotNull String description, @NotNull boolean isExecuted, @NotNull Rider rider, @NotNull Motocross motocross) {
+    public Training(@NotNull LocalDate date, @NotNull @Range(min = 1, max = 10) int priority, @NotNull String description, @NotNull boolean isExecuted, @NotNull Rider rider, @NotNull Motocross motocross) {
         this.date = date;
         this.priority = priority;
         this.description = description;
@@ -32,6 +33,7 @@ public class Training {
     private LocalDate date;
 
     @NotNull
+    @Range(min = 1, max = 10)
     private int priority;
 
     @NotNull
@@ -41,11 +43,13 @@ public class Training {
     @Column(name = "is_executed")
     private boolean isExecuted;
 
+    //0..*-1
     @NotNull
     @ManyToOne
     @JoinColumn(name = "id_rider")
     private Rider rider;
 
+    //0..*-1
     @NotNull
     @ManyToOne
     @JoinColumn(name = "id_motocross")

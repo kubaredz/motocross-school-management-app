@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity(name = "electric_motocross")
 @NoArgsConstructor
 @Getter
 @Setter
 @DiscriminatorValue("ELECTRIC")
+@Entity(name = "electric_motocross")
 public class ElectricMotocross extends Motocross {
 
     public ElectricMotocross(long id, @NotNull String brand, String model, @NotNull LocalDate productionDate, @NotNull double motorPower, LocalDate serviceDate, @NotNull boolean isWorking, @NotNull Owner owner, List<Attendance> attendances, List<Training> trainings, @NotNull float batteryCapacity) {

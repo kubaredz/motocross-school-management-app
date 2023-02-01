@@ -7,10 +7,10 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Attendance {
 
     public Attendance(@NotNull Rider rider, @NotNull Motocross motocross, @NotNull Tournament tournament) {
@@ -38,5 +38,4 @@ public class Attendance {
     @ManyToOne
     @JoinColumn(name = "id_tournament")
     private Tournament tournament;
-
 }

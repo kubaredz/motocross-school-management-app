@@ -16,8 +16,8 @@ public class RiderService {
      * @return true if rider has >= stars then chooses competition
      */
     public boolean checkStars(Tournament tournament, Rider rider) {
-        int competitionStars = tournament.getTournamentType();
-        int riderStars = rider.getStartingLeague();
+        int competitionStars = tournament.getTournamentType().ordinal();
+        int riderStars = rider.getStartingLeague().ordinal();
         return riderStars >= competitionStars;
     }
 }

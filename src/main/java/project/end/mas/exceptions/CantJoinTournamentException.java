@@ -5,5 +5,4 @@ public class CantJoinTournamentException extends Exception {
     public CantJoinTournamentException(String message) {
         super(message);
     }
-
 }

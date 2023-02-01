@@ -8,10 +8,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Expense {
 
     public Expense(@NotNull int number, LocalDate billingDate, @NotNull double cost, @NotNull Owner owner) {
