@@ -19,65 +19,70 @@ public class TournamentService {
     private final AttendanceRepository attendanceRepository;
 
     /**
-     * <p> method showing all open competitions at the moment/p>
-     * @return list of open competitions
+     * <p> method showing all open tournaments at the moment/p>
+     *
+     * @return list of open tournaments
      */
-    public Iterable<Tournament> showOpenCompetitions() {
+    public Iterable<Tournament> showOpenTournaments() {
         StreamSupport.stream(tournamentRepository.findAll().spliterator(), false)
-                .forEach(this::setParticipantsNumber);
+                .forEach(this::setAttendancesNumber);
 
         return StreamSupport
                 .stream(tournamentRepository.findAll().spliterator(), false)
-                .filter(competition -> competition.getTournamentState().equals(TournamentState.OPEN))
+                .filter(tournament -> tournament.getTournamentState().equals(TournamentState.OPEN))
                 .collect(Collectors.toList());
     }
 
     /**
-     * <p> method checkes if there is at least one open competiton at the moment </p>
-     * @return true if there is any open competition
+     * <p> method checks if there is at least one open tournament at the moment </p>
+     *
+     * @return true if there is any open tournament
      */
     public boolean checkOpen() {
         return StreamSupport
-                .stream(showOpenCompetitions().spliterator(), false)
+                .stream(showOpenTournaments().spliterator(), false)
                 .count() > 0;
     }
 
     /**
-     * <p> method that try to find a competition by a given id </p>
-     * @param idCompetition id of a competition to find
-     * @return competition or empty optional
+     * <p> method that try to find a tournament by a given id </p>
+     *
+     * @param idTournament id of a tournament to find
+     * @return tournament or empty optional
      */
-    public Optional<Tournament> findCompetitionById(long idCompetition) {
-        return tournamentRepository.findById(idCompetition);
+    public Optional<Tournament> findTournamentById(long idTournament) {
+        return tournamentRepository.findById(idTournament);
     }
 
     /**
-     * <p> method that cancels competition (changes its state to cancelled) </p>
-     * @param idCompetition id of a competition to cancel
+     * <p> method that cancels tournament (changes its state to cancelled) </p>
+     *
+     * @param idTournament id of a tournament to cancel
      */
-    public void cancel(long idCompetition) {
+    public void cancel(long idTournament) {
         tournamentRepository
-                .findById(idCompetition)
-                .ifPresent(competition -> {
-                    competition.setTournamentState(TournamentState.CANCELLED);
-                    tournamentRepository.save(competition);
+                .findById(idTournament)
+                .ifPresent(tournament -> {
+                    tournament.setTournamentState(TournamentState.CANCELLED);
+                    tournamentRepository.save(tournament);
                 });
     }
 
     /**
-     * <p> method that opens competition for a registration process (changes its state to open) </p>
-     * @param idCompetition id of a competition to cancel
+     * <p> method that opens tournament for a registration process (changes its state to open) </p>
+     *
+     * @param idTournament id of a tournament to cancel
      */
-    public void open(long idCompetition) {
+    public void open(long idTournament) {
         tournamentRepository
-                .findById(idCompetition)
-                .ifPresent(competition -> {
-                    competition.setTournamentState(TournamentState.OPEN);
-                    tournamentRepository.save(competition);
+                .findById(idTournament)
+                .ifPresent(tournament -> {
+                    tournament.setTournamentState(TournamentState.OPEN);
+                    tournamentRepository.save(tournament);
                 });
     }
 
-    public void setParticipantsNumber(Tournament tournament) {
+    public void setAttendancesNumber(Tournament tournament) {
         int number = StreamSupport
                 .stream(attendanceRepository.findAll().spliterator(), false)
                 .filter(p -> p.getTournament().getId() == tournament.getId())

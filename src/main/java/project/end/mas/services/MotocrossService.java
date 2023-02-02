@@ -16,29 +16,30 @@ import java.util.stream.StreamSupport;
 public class MotocrossService {
 
     private final MotocrossRepository motocrossRepository;
-
     private final AttendanceRepository attendanceRepository;
 
     /**
-     * <p> method showing horses that are active and don't participate yet in a selected competition </p>
-     * @param tournament selected competition
-     * @return list of horses
+     * <p> method showing motocrosses that are active and don't attend yet in a selected tournament </p>
+     *
+     * @param tournament selected tournament
+     * @return list of motocrosses
      */
-    public List<Motocross> showActiveHorses(Tournament tournament) {
+    public List<Motocross> showActiveMotocrosses(Tournament tournament) {
         return StreamSupport
                 .stream(motocrossRepository.findAll().spliterator(), false)
                 .filter(Motocross::isWorking)
-                .filter(h -> !horseInCompetition(tournament, h))
+                .filter(motocross -> !motocrossInTournament(tournament, motocross))
                 .collect(Collectors.toList());
     }
 
     /**
-     * <p> method checking if a selected horse takes part in a chosen competition already </p>
-     * @param tournament selected competition
-     * @param motocross selected horse
-     * @return true if selected horse already takes part in this competition
+     * <p> method checking if a selected motocross takes part in a chosen tournament already </p>
+     *
+     * @param tournament selected tournament
+     * @param motocross  selected motocross
+     * @return true if selected motocross already takes part in this tournament
      */
-    private boolean horseInCompetition(Tournament tournament, Motocross motocross) {
+    private boolean motocrossInTournament(Tournament tournament, Motocross motocross) {
         return StreamSupport
                 .stream(attendanceRepository.findAll().spliterator(), false)
                 .anyMatch(p -> p.getTournament().equals(tournament) && p.getMotocross().equals(motocross));

@@ -33,43 +33,34 @@ public class JoinTournamentController {
     private final RiderRepository riderRepository;
 
     @GetMapping("/")
-    public String getHome(Model model) {
+    public String getMainPage(Model model) {
         Optional<Rider> loggedRider = riderRepository.findById(1L);
         model.addAttribute("rider", loggedRider.get());
         return "index.html";
     }
 
-    /**
-     * <p> method showing all open competitions</p>
-     * @return view tournament-list.html
-     */
     @GetMapping("/tournaments")
-    public String getCompetitions(Model model) {
+    public String getTournaments(Model model) {
 
         if (!tournamentService.checkOpen())
             model.addAttribute("msgTournaments", Message.TOURNAMENTS_NONE.getMessage());
 
-        Iterable<Tournament> openCompetitions = tournamentService.showOpenCompetitions();
+        Iterable<Tournament> openTournaments = tournamentService.showOpenTournaments();
         Optional<Rider> loggedRider = riderRepository.findById(1L);
 
         model.addAttribute("rider", loggedRider.get());
-        model.addAttribute("tournaments", openCompetitions);
+        model.addAttribute("tournaments", openTournaments);
 
         return "tournament-list.html";
     }
 
-    /**
-     * <p> method showing participants in a chosen competition
-     * and option to join it with a specific horse</p>
-     * @return view tournament-details.html
-     */
     @GetMapping("/tournament/{id}")
-    public String getCompetitionDetails(Model model, @PathVariable long id) throws NoTournamentException {
+    public String getTournamentDetails(Model model, @PathVariable long id) throws NoTournamentException {
 
-        Tournament tournament = tournamentService.findCompetitionById(id)
+        Tournament tournament = tournamentService.findTournamentById(id)
                 .orElseThrow(() -> new NoTournamentException("given tournament id doesn't exists"));
-        List<Attendance> attendances = attendanceService.showParticipants(id);
-        List<Motocross> motorcycle = motocrossService.showActiveHorses(tournament);
+        List<Attendance> attendances = attendanceService.showAttendances(id);
+        List<Motocross> motorcycle = motocrossService.showActiveMotocrosses(tournament);
 
         if (motorcycle.isEmpty())
             model.addAttribute("msgMotocross", Message.MOTOCROSS_NONE.getMessage());
@@ -84,32 +75,27 @@ public class JoinTournamentController {
         return "tournament-details.html";
     }
 
-    /**
-     * <p> method to add new participation
-     * @return view tournament-details.html
-     */
     @PostMapping("/tournament/{id}")
-    public String joinCompetition(@PathVariable long id,
-                                  @RequestParam(value = "newMotocross", required = false) Long newMotocross,
-                                  RedirectAttributes redirectAttributes)
+    public String joinTournament(@PathVariable long id,
+                                 @RequestParam(value = "newMotocross", required = false) Long newMotocross,
+                                 RedirectAttributes redirectAttributes)
             throws CantJoinTournamentException {
 
         redirectAttributes.addFlashAttribute("msg", Message.FAILED_JOIN.getMessage());
         redirectAttributes.addFlashAttribute("alertClass", "alert-error");
 
-        Tournament tournament = tournamentService.findCompetitionById(id).orElse(null);
+        Tournament tournament = tournamentService.findTournamentById(id).orElse(null);
         Rider loggedRider = riderRepository.findById(1L).orElse(null);
 
-        if (!riderService.checkStars(tournament, loggedRider)) {
+        if (!riderService.checkRiderCanTakePartInTournament(tournament, loggedRider)) {
             return "redirect:/tournament/{id}";
         }
 
-        attendanceService.joinCompetition(id, newMotocross);
+        attendanceService.joinTournament(id, newMotocross);
 
         redirectAttributes.addFlashAttribute("msg", Message.SUCCESS_JOIN.getMessage());
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
         return "redirect:/tournament/{id}";
     }
-
 }

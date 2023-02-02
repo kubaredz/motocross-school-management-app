@@ -26,35 +26,32 @@ public class AttendanceService {
     private final TournamentService tournamentService;
 
     /**
-     * <p> method showing all participations in selected competition</p>
-     * @param idCompetition id of selected competition
-     * @return list of participants in a chosen competition
+     * <p> method showing all attendances in selected tournament</p>
+     *
+     * @param idTournament id of selected tournament
+     * @return list of attendances in a chosen tournament
      */
-    public List<Attendance> showParticipants(long idCompetition) {
-        return StreamSupport
-                .stream(attendanceRepository.findAll().spliterator(), false)
-                .filter(p -> p.getTournament().getId() == idCompetition)
-                .collect(Collectors.toList());
+    public List<Attendance> showAttendances(long idTournament) {
+        return StreamSupport.stream(attendanceRepository.findAll().spliterator(), false).filter(p -> p.getTournament().getId() == idTournament).collect(Collectors.toList());
     }
 
     /**
-     * <p> method adding new rider and horse in a chosen competition</p>
-     * @param idCompetition id of selected competition
-     * @param idHorse id of selected horse
+     * <p> method adding new rider and motocross in a chosen tournament</p>
+     *
+     * @param idTournament id of selected tournament
+     * @param idMotocross  id of selected motocross
      */
-    public void joinCompetition(Long idCompetition, Long idHorse) throws CantJoinTournamentException {
+    public void joinTournament(Long idTournament, Long idMotocross) throws CantJoinTournamentException {
         //logged rider (hardcoded)
         Optional<Rider> loggedRider = riderRepository.findById(1L);
-        Optional<Tournament> competition = tournamentService.findCompetitionById(idCompetition);
-        Optional<Motocross> horse = motocrossRepository.findById(idHorse);
+        Optional<Tournament> tournament = tournamentService.findTournamentById(idTournament);
+        Optional<Motocross> motocross = motocrossRepository.findById(idMotocross);
 
-        if (loggedRider.isPresent() && competition.isPresent() && horse.isPresent()) {
-            Attendance attendance = new Attendance(loggedRider.get(), horse.get(), competition.get());
+        if (loggedRider.isPresent() && tournament.isPresent() && motocross.isPresent()) {
+            Attendance attendance = new Attendance(loggedRider.get(), motocross.get(), tournament.get());
             attendanceRepository.save(attendance);
         } else {
             throw new CantJoinTournamentException("Can't join tournament, wrong data input!");
         }
-
     }
-
 }

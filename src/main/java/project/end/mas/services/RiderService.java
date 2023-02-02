@@ -10,14 +10,15 @@ import project.end.mas.models.Rider;
 public class RiderService {
 
     /**
-     * <p> method checks if rider can compete in a chosen competition </p>
-     * @param tournament selected competition
-     * @param rider currently logged rider in application
-     * @return true if rider has >= stars then chooses competition
+     * <p> method checks if rider can compete in a chosen tournament </p>
+     *
+     * @param tournament selected tournament
+     * @param rider      currently logged rider in application
+     * @return verification that the rider can take part in the tournament
      */
-    public boolean checkStars(Tournament tournament, Rider rider) {
-        int competitionStars = tournament.getTournamentType().ordinal();
-        int riderStars = rider.getStartingLeague().ordinal();
-        return riderStars >= competitionStars;
+    public boolean checkRiderCanTakePartInTournament(Tournament tournament, Rider rider) {
+        int tournamentType = tournament.getTournamentType().ordinal();
+        int riderStartingLeague = rider.getStartingLeague().ordinal();
+        return riderStartingLeague >= tournamentType;
     }
 }
